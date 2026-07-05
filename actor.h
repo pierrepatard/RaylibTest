@@ -11,6 +11,9 @@ public:
 
     virtual void Init(Vector2 playerPosition, std::string animation, int animationNumber );
     virtual void Update(float dt);
+    virtual void UpdatePosition(float dt);
+    virtual void UpdateCollision(float dt);
+    virtual void UpdateAnimation(float dt);
     virtual void Draw(float dt);
 
     virtual void OnCollision(Actor& actor);
@@ -21,6 +24,7 @@ public:
     const uint32_t GetCollisionMask();
 
 protected:
+    Vector2 oldPosition;
     Vector2 position;
     Vector2 direction = { 0, 0 };
     std::vector<Texture2D> animations;

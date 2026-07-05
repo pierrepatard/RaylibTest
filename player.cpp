@@ -91,13 +91,7 @@ void Player::Init(Vector2 playerPosition)
 
 void Player::Update(float dt)
 {
-    oldPosition = position;
-    Actor::Update(dt);
-}
-
-
-void Player::Draw(float dt)
-{
+    Actor::UpdatePosition(dt);
     if (dashPhase > 0)
     {
         if (dashPhase > 0.15 && dashPhase < 2)
@@ -111,6 +105,16 @@ void Player::Draw(float dt)
             dashPhase = 2;
         }
         dashPhase = (dashPhase > 2.1) ? 0 : dashPhase + dt;
+    }
+    UpdateCollision(dt);
+    UpdateAnimation(dt);
+}
+
+
+void Player::Draw(float dt)
+{
+    if (dashPhase > 0)
+    {
         Vector2 tempPosition = position;
         tempPosition.y += quaterSize;
         DrawTextureV(dash, tempPosition, WHITE);

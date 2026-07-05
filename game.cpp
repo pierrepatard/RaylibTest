@@ -51,28 +51,6 @@ void Game::StartGame()
     auto enemy2 = std::make_unique<Enemy>();
     enemy2->Init({ (MAP_CENTER_WIDTH - 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
 
-    //for (int x = 0; x < screenWidth; x += 500)
-    //{
-    //    auto borderTop = std::make_unique<Border>();
-    //    borderTop->Init(Vector2{ static_cast<float>(x), -80 });
-    //    actors.push_back(std::move(borderTop));
-
-    //    auto borderBot = std::make_unique<Border>();
-    //    borderBot->Init(Vector2{ static_cast<float>(x),  static_cast<float>(screenHeight)-20 });
-    //    actors.push_back(std::move(borderBot));
-    //}
-
-    //for (int y = 0; y < screenHeight; y += 100)
-    //{
-    //    auto borderLeft = std::make_unique<Border>();
-    //    borderLeft->Init(Vector2{ -480, static_cast<float>(y) });
-    //    actors.push_back(std::move(borderLeft));
-
-    //    auto borderRight = std::make_unique<Border>();
-    //    borderRight->Init(Vector2{ static_cast<float>(screenWidth) - 20, static_cast<float>(y) });
-    //    actors.push_back(std::move(borderRight));
-    //}
-
     actors.push_back(std::move(player));
     actors.push_back(std::move(enemy1));
     actors.push_back(std::move(enemy2));

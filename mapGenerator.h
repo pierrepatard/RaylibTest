@@ -2,6 +2,15 @@
 #include <vector>
 #include <raylib.h>
 
+
+enum class TileType
+{
+	NONE,
+	WALL,
+	FLOOR,
+};
+
+
 enum class MapType
 {
 	PLAINE,
@@ -18,15 +27,15 @@ public:
 	void GenerateMap(MapType type);
 	void DrawMap(Camera2D camera);
 
-	unsigned int GetTile(int x, int y);
+	static TileType GetTile(int x, int y);
 
 private:
-	std::vector<unsigned int> GetRandomNavigationTilemap(int steps);
+	std::vector<TileType> GetRandomNavigationTilemap(int steps);
 
 	void GeneratePlaine();
 	void GenerateCave();
 
-	std::vector<unsigned int> tilesmap;
+	static std::vector<TileType> tilesmap;
 
 	int tilesNumber;
 };

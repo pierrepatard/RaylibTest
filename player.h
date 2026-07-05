@@ -26,7 +26,6 @@ public:
 private:
     void RegisterPlayerBinding();
 
-    Vector2 oldPosition;
     Texture2D dash;
 
     float dashLengh = 100;
