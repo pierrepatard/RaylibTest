@@ -11,4 +11,5 @@ const int MAP_CENTER_WIDTH = MAP_WIDTH/2;
 const int MAP_CENTER_HEIGHT = MAP_HEIGHT/2;
 
 const int TILE_PIXEL = 60;
-const int MAP_STEPS = 1000;
+const int MAP_STEPS = 5000;
+const int MAP_RESET = 5;

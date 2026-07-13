@@ -1,9 +1,22 @@
 #pragma once
+#include "actor.h"
 #include "game.h"
+
+#include "skill.h"
+#include "beam.h"
+#include "player.h"
+#include "enemy.h"
 
 #include "raylib.h"
 #include "rlgl.h"
-#include <math.h>
+#include "raymath.h"
+
+#include "keyAction.h"
+#include "input.h"
+#include "utils.h"
+#include "command.h"
+#include "mapGenerator.h"
+
 #include <iostream>
 #include <unordered_map>
 #include <functional>
@@ -11,16 +24,9 @@
 #include <cmath>
 #include <string>
 #include <random>
-#include "raymath.h"
 
-#include "keyAction.h"
-#include "input.h"
-#include "utils.h"
-#include "command.h"
-#include "player.h"
-#include "enemy.h"
-#include "border.h"
-#include "mapGenerator.h"
+
+Game::~Game() = default;
 
 
 void Game::StartGame()
@@ -42,14 +48,15 @@ void Game::StartGame()
     mapGenerator.GenerateMap(MapType::CAVE);
 
     auto player = std::make_unique<Player>();
-    player->Init({ MAP_CENTER_WIDTH * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL });
+    player->Init(*this, { MAP_CENTER_WIDTH * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL });
+    player->AddSkill(std::make_unique<Beam>(*player));
     Player* playerRef = player.get();
 
     auto enemy1 = std::make_unique<Enemy>();
-    enemy1->Init({ (MAP_CENTER_WIDTH + 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
+    enemy1->Init(*this, { (MAP_CENTER_WIDTH + 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
 
     auto enemy2 = std::make_unique<Enemy>();
-    enemy2->Init({ (MAP_CENTER_WIDTH - 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
+    enemy2->Init(*this, { (MAP_CENTER_WIDTH - 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
 
     actors.push_back(std::move(player));
     actors.push_back(std::move(enemy1));
@@ -112,6 +119,11 @@ void Game::StartGame()
             actor->Update(dt);
         }
 
+        std::erase_if(actors, [](const std::unique_ptr<Actor>& actor)
+        {
+            return !actor->IsAlive();
+        });
+
         collisionSystem.CheckCollisions(actors);
 
         // -- Draw --
@@ -154,4 +166,10 @@ void Game::StartGame()
         EndDrawing();
     }
     CloseWindow();
+}
+
+
+const std::vector<std::unique_ptr<Actor>>& Game::GetActors() const
+{
+    return actors;
 }

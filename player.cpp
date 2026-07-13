@@ -79,11 +79,11 @@ void Player::RegisterPlayerBinding()
 }
 
 
-void Player::Init(Vector2 playerPosition)
+void Player::Init(Game& gameRef, Vector2 playerPosition)
 {
-    Actor::Init(playerPosition, "front", 3);
+    Actor::Init(gameRef, playerPosition, "front", 3);
     RegisterPlayerBinding();
-
+    speed = 200;
     collisionLayer = static_cast<uint32_t>(ColliderLayer::PLAYER);
     collisionMask = static_cast<uint32_t>(ColliderLayer::ENEMY) | static_cast<uint32_t>(ColliderLayer::MAP);
 }
@@ -107,12 +107,14 @@ void Player::Update(float dt)
         dashPhase = (dashPhase > 2.1) ? 0 : dashPhase + dt;
     }
     UpdateCollision(dt);
+    UpdateSkills(dt);
     UpdateAnimation(dt);
 }
 
 
 void Player::Draw(float dt)
 {
+    DrawSkills(dt);
     if (dashPhase > 0)
     {
         Vector2 tempPosition = position;
@@ -139,12 +141,7 @@ void Player::OnCollision(Actor& actor)
 }
 
 
-void Player::TakeDamage(float damage)
+void Player::Dies()
 {
-    std::cout << ("Player TakeDamage %f", damage) << std::endl;
-    life -= damage;
-    if (life <= 0)
-    {
-        std::cout << "Player is dead" << std::endl;
-    }
+    Print("Player is dead !!");
 }

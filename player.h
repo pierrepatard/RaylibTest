@@ -16,13 +16,14 @@ class Player: public Actor
 public:
     Player();
     ~Player();
-    void Init(Vector2 playerPosition);
+    void Init(Game& gameRef, Vector2 playerPosition);
     void Update(float dt) override;
     void Draw(float dt) override;
 
     void OnCollision(Actor& actor) override;
 
-    void TakeDamage(float damage);
+    void Dies() override;
+
 private:
     void RegisterPlayerBinding();
 

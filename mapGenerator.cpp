@@ -17,28 +17,30 @@ MapGenerator::MapGenerator()
 
 std::vector<TileType> MapGenerator::GetRandomNavigationTilemap(int steps)
 {
-	int x = MAP_WIDTH / 2;
-	int y = MAP_HEIGHT / 2;
-
 	std::vector<TileType> tilemap(tilesNumber, TileType::WALL);
 
-	tilemap[y * MAP_WIDTH + x] = TileType::FLOOR;
-
-	for (int i = 1; i < steps; ++i)
+	for (int i = 0; i < MAP_RESET; ++i)
 	{
-		int direction = GetRandomInt(0, 3);
-		switch (direction)
-		{
-		case 0: x++; break;
-		case 1: x--; break;
-		case 2: y++; break;
-		case 3: y--; break;
-		default: break;
-		}
-		x = std::clamp(x, 0, MAP_WIDTH - 1);
-		y = std::clamp(y, 0, MAP_HEIGHT - 1);
-
+		int x = MAP_WIDTH / 2;
+		int y = MAP_HEIGHT / 2;
 		tilemap[y * MAP_WIDTH + x] = TileType::FLOOR;
+
+		for (int j = 1; j < steps; ++j)
+		{
+			int direction = GetRandomInt(0, 3);
+			switch (direction)
+			{
+			case 0: x++; break;
+			case 1: x--; break;
+			case 2: y++; break;
+			case 3: y--; break;
+			default: break;
+			}
+			x = std::clamp(x, 0, MAP_WIDTH - 1);
+			y = std::clamp(y, 0, MAP_HEIGHT - 1);
+
+			tilemap[y * MAP_WIDTH + x] = TileType::FLOOR;
+		}
 	}
 	return tilemap;
 }

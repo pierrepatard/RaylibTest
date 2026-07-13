@@ -4,7 +4,9 @@
 class Enemy: public Actor
 {
 public:
-    void Init(Vector2 playerPosition, Actor& actor);
+    ~Enemy() override;
+
+    void Init(Game& gameRef, Vector2 playerPosition, Actor& actor);
     void Update(float dt) override;
 
     void OnCollision(Actor& actor) override;

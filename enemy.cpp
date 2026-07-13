@@ -2,9 +2,12 @@
 #include "utils.h"
 #include "player.h"
 
-void Enemy::Init(Vector2 playerPosition, Actor& actor)
+Enemy::~Enemy() = default;
+
+
+void Enemy::Init(Game& gameRef, Vector2 playerPosition, Actor& actor)
 {
-    Actor::Init(playerPosition, "warior", 1);
+    Actor::Init(gameRef, playerPosition, "warior", 1);
     target = &actor;
 
     collisionLayer = static_cast<uint32_t>(ColliderLayer::ENEMY);

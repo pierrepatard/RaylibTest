@@ -4,7 +4,6 @@
 
 #include "actor.h"
 
-
 class CollisionSystem
 {
 public:

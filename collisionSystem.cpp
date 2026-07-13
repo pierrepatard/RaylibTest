@@ -1,7 +1,6 @@
 #include "collisionSystem.h"
 
 
-
 bool ShouldCollide(Actor& a, Actor& b)
 {
     return (a.GetCollisionMask() & b.GetCollisionLayer()) && (b.GetCollisionMask() & a.GetCollisionLayer());
