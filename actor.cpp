@@ -39,25 +39,7 @@ void Actor::Init(Game& gameRef, Vector2 playerPosition, std::string animation, i
 }
 
 
-bool IsMapColliding(int x, int y, float width, int height)
-{
-    int leftTile = x / TILE_PIXEL;
-    int rightTile = (x + width) / TILE_PIXEL;
-    int topTile = y / TILE_PIXEL;
-    int bottomTile = (y + height) / TILE_PIXEL;
 
-    for (int y = topTile; y <= bottomTile; y++)
-    {
-        for (int x = leftTile; x <= rightTile; x++)
-        {
-            if (MapGenerator::GetTile(x, y) != TileType::FLOOR)
-            {
-                return true;
-            }
-        }
-    }
-    return false;
-}
 
 
 Vector2 ResolveMapCollision(Vector2 start, Vector2 end, float width, float height, int steps = 8)
@@ -246,6 +228,19 @@ uint32_t Actor::GetCollisionMask() const
 {
     return collisionMask;
 }
+
+
+float Actor::GetHeight() const
+{
+    return height;
+}
+
+
+float Actor::GetWidth() const
+{
+    return width;
+}
+
 
 Game* Actor::GetGame() const
 {

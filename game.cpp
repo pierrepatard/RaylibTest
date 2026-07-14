@@ -26,6 +26,7 @@
 #include <random>
 
 
+Game::Game() = default;
 Game::~Game() = default;
 
 
@@ -47,20 +48,11 @@ void Game::StartGame()
     mapGenerator = MapGenerator();
     mapGenerator.GenerateMap(MapType::CAVE);
 
-    auto player = std::make_unique<Player>();
+    player = std::make_unique<Player>();
     player->Init(*this, { MAP_CENTER_WIDTH * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL });
     player->AddSkill(std::make_unique<Beam>(*player));
-    Player* playerRef = player.get();
-
-    auto enemy1 = std::make_unique<Enemy>();
-    enemy1->Init(*this, { (MAP_CENTER_WIDTH + 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
-
-    auto enemy2 = std::make_unique<Enemy>();
-    enemy2->Init(*this, { (MAP_CENTER_WIDTH - 5) * TILE_PIXEL, MAP_CENTER_HEIGHT * TILE_PIXEL }, *player);
-
-    actors.push_back(std::move(player));
-    actors.push_back(std::move(enemy1));
-    actors.push_back(std::move(enemy2));
+   
+    actors = enemyManager.SpawnEnemies(this, 4);
 
     camera.offset = Vector2{ screenWidth / 2.0f, screenHeight / 2.0f };
     camera.rotation = 0.0f;
@@ -114,6 +106,7 @@ void Game::StartGame()
         // -- Update --
         input.CheckInputs(dt);
 
+        player->Update(dt);
         for (auto& actor : actors)
         {
             actor->Update(dt);
@@ -124,7 +117,7 @@ void Game::StartGame()
             return !actor->IsAlive();
         });
 
-        collisionSystem.CheckCollisions(actors);
+        collisionSystem.CheckCollisions(*player, actors);
 
         // -- Draw --
         BeginDrawing();
@@ -135,6 +128,7 @@ void Game::StartGame()
 
         mapGenerator.DrawMap(camera);
 
+        player->Draw(dt);
         for (auto& actor : actors)
         {
             actor->Draw(dt);
@@ -155,7 +149,7 @@ void Game::StartGame()
         }
 #endif
 
-        Vector2 playerPos = playerRef->GetPosition();
+        Vector2 playerPos = player->GetPosition();
 
         if (GetDistanceV2(camera.target, playerPos) > cameraDeadZone)
         {
@@ -166,6 +160,18 @@ void Game::StartGame()
         EndDrawing();
     }
     CloseWindow();
+}
+
+
+const Actor& Game::GetPlayerActor() const
+{
+    return *player;
+}
+
+
+const Player& Game::GetPlayer() const
+{
+    return *player;
 }
 
 

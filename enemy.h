@@ -6,14 +6,14 @@ class Enemy: public Actor
 public:
     ~Enemy() override;
 
-    void Init(Game& gameRef, Vector2 playerPosition, Actor& actor);
+    void Init(Game& gameRef, Vector2 playerPosition, const Actor& actor);
     void Update(float dt) override;
 
     void OnCollision(Actor& actor) override;
 
     float GetDamage();
 private:
-    Actor* target = nullptr;
+    const Actor* target = nullptr;
     float triggerDistance = 200;
     float rangeDistance = 20;
 

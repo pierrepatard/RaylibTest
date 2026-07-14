@@ -3,6 +3,8 @@
 #include <iostream>
 #include <random>
 #include "raylib.h"
+#include "const.h"
+#include "MapGenerator.h"
 
 
 int GetRandomInt(int min, int max)
@@ -44,4 +46,25 @@ void Print(std::string string)
 void Print(int number)
 {
     std::cout << std::to_string(number) << std::endl;
+}
+
+
+bool IsMapColliding(int x, int y, float width, int height)
+{
+    int leftTile = x / TILE_PIXEL;
+    int rightTile = (x + width) / TILE_PIXEL;
+    int topTile = y / TILE_PIXEL;
+    int bottomTile = (y + height) / TILE_PIXEL;
+
+    for (int y = topTile; y <= bottomTile; y++)
+    {
+        for (int x = leftTile; x <= rightTile; x++)
+        {
+            if (MapGenerator::GetTile(x, y) != TileType::FLOOR)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }

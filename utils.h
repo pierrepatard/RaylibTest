@@ -15,3 +15,4 @@ Vector2 NormalizeV2(Vector2 v);
 int GetDistanceV2(Vector2 v1, Vector2 v2);
 void Print(std::string string);
 void Print(int number);
+bool IsMapColliding(int x, int y, float width, int height);

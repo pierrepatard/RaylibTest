@@ -36,6 +36,8 @@ public:
     const Rectangle& GetCollider() const;
     uint32_t GetCollisionLayer() const;
     uint32_t GetCollisionMask() const;
+    float GetHeight() const;
+    float GetWidth() const;
 
     void TakeDamage(float damage);
 

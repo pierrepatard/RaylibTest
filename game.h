@@ -6,15 +6,21 @@
 #include "define.h"
 #include "collisionSystem.h"
 #include "mapGenerator.h"
+#include "enemyManager.h"
 #include "const.h"
 
 class Actor;
+class Player;
 
 class Game
 {
 public:
+    Game();
     ~Game();
     void StartGame();
+
+    const Actor& GetPlayerActor() const;
+    const Player& GetPlayer() const;
     const std::vector<std::unique_ptr<Actor>>& GetActors() const;
 private:
     int screenWidth;
@@ -24,7 +30,9 @@ private:
     Camera2D camera = { 0 };
     CollisionSystem collisionSystem;
     MapGenerator mapGenerator;
+    EnemyManager enemyManager;
 
+    std::unique_ptr<Player> player;
     std::vector< std::unique_ptr<Actor>>actors;
     bool consoleOpen;
 };

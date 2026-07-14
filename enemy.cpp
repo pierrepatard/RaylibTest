@@ -5,7 +5,7 @@
 Enemy::~Enemy() = default;
 
 
-void Enemy::Init(Game& gameRef, Vector2 playerPosition, Actor& actor)
+void Enemy::Init(Game& gameRef, Vector2 playerPosition, const Actor& actor)
 {
     Actor::Init(gameRef, playerPosition, "warior", 1);
     target = &actor;

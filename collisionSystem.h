@@ -7,5 +7,5 @@
 class CollisionSystem
 {
 public:
-    static void CheckCollisions(const std::vector<std::unique_ptr<Actor>>& actors);
+    static void CheckCollisions(Actor& player, const std::vector<std::unique_ptr<Actor>>& actors);
 };
